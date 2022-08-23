@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/music")
 public class MusicController {
-    private static Logger logger = LoggerFactory.getLogger(MusicController.class);
+    private static Logger logger = LoggerFactory.getLogger(MusicController.class.getSimpleName());
     public static void main(String[] args) {
         logger.error("teste");
     }
