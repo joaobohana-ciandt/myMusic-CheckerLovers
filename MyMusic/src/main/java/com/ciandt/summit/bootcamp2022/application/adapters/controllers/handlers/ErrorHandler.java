@@ -4,9 +4,7 @@ import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.InvalidSongNameOr
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.BadAuthRequestException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.UnauthorizedException;
-import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +18,7 @@ import java.util.Date;
 
 @ControllerAdvice
 @RestController
-public class ErroHandler extends ResponseEntityExceptionHandler {
+public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionResponse> handlerAllExceptions (Exception exception, WebRequest request){
