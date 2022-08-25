@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.infra.configs;
+package com.ciandt.summit.bootcamp2022.config;
 
 import java.util.Properties;
 
@@ -7,7 +7,10 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -33,7 +36,7 @@ public class DbConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"com.ciandt.summit.bootcamp2022.infra.adapters.entities"});
+        em.setPackagesToScan(new String[]{"com.ciandt.summit.bootcamp2022.entity"});
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(additionalProperties());
         return em;
@@ -53,4 +56,8 @@ public class DbConfig {
         return hibernateProperties;
     }
 
+}
+
+@Configuration
+class SqliteConfig {
 }
