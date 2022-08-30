@@ -40,4 +40,16 @@ public class SongRepository implements SongRepositoryPort {
 
         return new SongsPaginated(songList, page.getTotalElements());
     }
+
+    @Override
+    public SongsPaginated findAllSongs(int pageNumber) {
+        Pageable pageable = Pageable.ofSize(10).withPage(pageNumber);
+        Page<SongEntity> page = songRepository.findAll(pageable);
+
+        List<Song> songs = page.stream()
+                .map(SongEntity::toSong)
+                .collect(Collectors.toList());
+
+        return new SongsPaginated(songs, page.getTotalElements());
+    }
 }
