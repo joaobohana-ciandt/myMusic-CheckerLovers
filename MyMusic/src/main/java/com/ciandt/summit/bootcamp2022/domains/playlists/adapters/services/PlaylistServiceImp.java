@@ -42,6 +42,15 @@ public class PlaylistServiceImp implements PlaylistServicePort {
 
     @Override
     public Playlist removeSongFromPlaylist(String id, String songId) throws SongsNotFoundException, PlaylistsNotFoundException {
-        return null;
+        Playlist playlist = this.playlistRespositoryPort.findById(id);
+        Song songToRemove = this.songRepositoryPort.findById(songId);
+
+        if (!playlist.getSongs().contains(songToRemove)) {
+            throw new SongsNotFoundException("Specified song was not found in playlist");
+        }
+
+        playlist.getSongs().remove(songToRemove);
+
+        return this.playlistRespositoryPort.addSong(new PlaylistEntity(playlist));
     }
 }
