@@ -98,6 +98,30 @@ public class SongsControllerTest {
     }
 
     @Test
+    public void callFindSongsEndpointWithoutFilterParamReturnsAllSongs() throws Exception {
+
+        when(songServicePort.findAllSongs(PAGE_NUMBER))
+                .thenReturn(new SongResponseDTO(SONGS_FROM_SERVICE));
+
+        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
+                .thenReturn(ResponseEntity.status(201).body("ok"));
+
+        MockHttpServletResponse response = mockMvc
+                .perform(get("/api/musicas")
+                        .header("token", TOKEN)
+                        .header("user", USER))
+                        .andReturn().getResponse();
+
+        SongResponseDTO expectedResponse = setupResponse(SONGS_FROM_SERVICE);
+        String expectedResponseAsString = expectedResponse.toString().replaceAll(" ", "");
+
+        String actualResponseAsString = response.getContentAsString().replaceAll(" ", "");
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals(expectedResponseAsString, actualResponseAsString);
+    }
+
+    @Test
     public void callFindSongsEndpointPassingValidParameterReturnsNotFound() throws Exception {
         String parameter = "NOT_FOUND";
 
