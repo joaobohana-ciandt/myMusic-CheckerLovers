@@ -37,9 +37,7 @@ public class PlaylistServiceImp implements PlaylistServicePort {
             playlist.getSongs().add(song);
         }
 
-        this.playlistRespositoryPort.addSong(new PlaylistEntity(playlist));
-
-        return playlist;
+        return this.playlistRespositoryPort.addSong(new PlaylistEntity(playlist));
     }
 
     @Override
