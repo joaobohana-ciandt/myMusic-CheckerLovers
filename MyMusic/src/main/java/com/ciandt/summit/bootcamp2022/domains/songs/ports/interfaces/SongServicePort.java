@@ -10,4 +10,7 @@ import java.util.List;
 public interface SongServicePort {
     SongResponseDTO findByNameOrArtistName(String name, int pageNumber)
             throws InvalidSongNameOrArtistNameException, SongsNotFoundException;
+
+    SongResponseDTO findAllSongs(int pageNumber)
+            throws InvalidSongNameOrArtistNameException, SongsNotFoundException;
 }

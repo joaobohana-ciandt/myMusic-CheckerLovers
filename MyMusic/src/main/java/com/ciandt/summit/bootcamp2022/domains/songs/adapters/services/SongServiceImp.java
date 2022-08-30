@@ -9,7 +9,6 @@ import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongResponseDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.interfaces.SongServicePort;
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.repositories.SongRepositoryPort;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +35,19 @@ public class SongServiceImp implements SongServicePort {
 
         List<SongDTO> songDTOS = convertSongListToDTOList(songs.getData());
         return new SongResponseDTO(songDTOS, songs.getTotalElements());
+    }
+
+    @Override
+    public SongResponseDTO findAllSongs(int pageNumber)
+            throws SongsNotFoundException {
+        SongsPaginated songsPaginated = songRepositoryPort.findAllSongs(pageNumber);
+
+        if(songsPaginated == null){
+            throw new SongsNotFoundException("No songs were found.");
+        }
+
+        List<SongDTO> songDTOS = convertSongListToDTOList(songsPaginated.getData());
+        return new SongResponseDTO(songDTOS, songsPaginated.getTotalElements());
     }
 
     private List<SongDTO> convertSongListToDTOList(List<Song> songs) throws SongsNotFoundException {
