@@ -12,5 +12,5 @@ public interface SongServicePort {
             throws InvalidSongNameOrArtistNameException, SongsNotFoundException;
 
     SongResponseDTO findAllSongs(int pageNumber)
-            throws InvalidSongNameOrArtistNameException, SongsNotFoundException;
+            throws SongsNotFoundException;
 }
