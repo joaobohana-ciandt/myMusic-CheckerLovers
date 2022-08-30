@@ -39,6 +39,7 @@ public class SongServiceTest {
     private SongServicePort songServicePort;
 
     private final int PAGE_SIZE = 10;
+    private final int PAGE_NUMBER = 0;
 
     private final static List<Song> SONGS_FROM_REPO = new ArrayList<>();
 
@@ -106,6 +107,18 @@ public class SongServiceTest {
                 s.getArtist().getName().contains(parameter));
 
         assertTrue(returnedSongsContainParameterInName);
+        assertEquals(10, songResponseDTO.getData().size());
+    }
+
+    @Test
+    public void findSongsPassingNullParameterReturnsAllSongs()
+            throws SongsNotFoundException, InvalidSongNameOrArtistNameException {
+        
+        when(songRepositoryPort.findAllSongs(PAGE_NUMBER))
+                .thenReturn(new SongsPaginated(SONGS_FROM_REPO, SONGS_FROM_REPO.size()));
+
+        SongResponseDTO songResponseDTO = songServicePort.findAllSongs(PAGE_NUMBER);
+
         assertEquals(10, songResponseDTO.getData().size());
     }
 
