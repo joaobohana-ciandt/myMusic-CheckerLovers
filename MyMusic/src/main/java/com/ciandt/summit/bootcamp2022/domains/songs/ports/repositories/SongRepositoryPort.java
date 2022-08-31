@@ -1,9 +1,11 @@
 package com.ciandt.summit.bootcamp2022.domains.songs.ports.repositories;
 
+import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
-
-import java.util.List;
+import com.ciandt.summit.bootcamp2022.domains.songs.SongsPaginated;
 
 public interface SongRepositoryPort {
-    List<Song> findByNameOrArtistName(String name, int pageNumber);
+    Song findById(String id) throws SongsNotFoundException;
+    SongsPaginated findByNameOrArtistName(String name, int pageNumber);
+    SongsPaginated findAllSongs(int pageNumber);
 }
