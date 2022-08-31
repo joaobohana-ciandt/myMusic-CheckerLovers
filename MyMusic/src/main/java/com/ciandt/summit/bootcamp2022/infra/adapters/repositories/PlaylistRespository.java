@@ -27,8 +27,8 @@ public class PlaylistRespository implements PlaylistRespositoryPort {
     }
 
     @Override
-    public void addSong(PlaylistEntity playlistEntity) {
-        playlistRepository.save(playlistEntity);
+    public Playlist addSong(PlaylistEntity playlistEntity) {
+        return playlistRepository.save(playlistEntity).toPlaylist();
     }
 
 }

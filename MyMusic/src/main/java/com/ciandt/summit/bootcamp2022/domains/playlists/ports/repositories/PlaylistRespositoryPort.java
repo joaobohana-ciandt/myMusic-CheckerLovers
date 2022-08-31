@@ -7,5 +7,5 @@ import com.ciandt.summit.bootcamp2022.infra.adapters.entities.PlaylistEntity;
 public interface PlaylistRespositoryPort {
     Playlist findById(String id) throws PlaylistsNotFoundException;
 
-    void addSong(PlaylistEntity playlistEntity);
+    Playlist addSong(PlaylistEntity playlistEntity);
 }
