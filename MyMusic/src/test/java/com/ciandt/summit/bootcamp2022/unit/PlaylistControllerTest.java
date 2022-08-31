@@ -133,7 +133,7 @@ public class PlaylistControllerTest {
     }
 
     @Test
-    public void deleteNonexistentMusicIntroPlaylist() throws Exception {
+    public void deleteNonExistentSongFromPlaylist() throws Exception {
 
         when(playlistServicePort.removeSongFromPlaylist(PLAYLIST_ID, SONG_ID))
                 .thenThrow(new SongsNotFoundException("Specified song was not found."));
@@ -148,7 +148,7 @@ public class PlaylistControllerTest {
     }
 
     @Test
-    public void deleteMusicIntroNonexistentPlaylist() throws Exception {
+    public void deleteSongFromNonExistentPlaylist() throws Exception {
 
         when(playlistServicePort.removeSongFromPlaylist(PLAYLIST_ID, SONG_ID))
                 .thenThrow(new PlaylistsNotFoundException("Specified playlist was not found."));
