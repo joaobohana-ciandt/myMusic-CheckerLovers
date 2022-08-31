@@ -4,6 +4,7 @@ import com.ciandt.summit.bootcamp2022.application.adapters.controllers.PlaylistC
 import com.ciandt.summit.bootcamp2022.domains.artists.Artist;
 import com.ciandt.summit.bootcamp2022.domains.artists.dtos.ArtistDTO;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistsNotFoundException;
+import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.InvalidSongNameOrArtistNameException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.playlists.Playlist;
 import com.ciandt.summit.bootcamp2022.domains.playlists.dtos.PlaylistSongsRequestDTO;
@@ -26,6 +27,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,7 @@ public class PlaylistControllerTest {
     private final String USER = "user";
     private final String TOKEN = "token";
     private final String PLAYLIST_ID = "PLAYLIST_ID";
+    private final String SONG_ID = "SONG_ID";
     private CreateAuthorizerDTO fakeCreateAuthorizer;
     private MockHttpServletRequestBuilder mockHttpServletRequestBuilder;
     private PlaylistSongsRequestDTO defaultPlaylistSongsRequestDTO;
@@ -113,6 +117,50 @@ public class PlaylistControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void deleteMusicPlaylistTest() throws Exception {
+        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
+                .thenReturn(ResponseEntity.status(201).body("ok"));
+
+        when(playlistServicePort.removeSongFromPlaylist(PLAYLIST_ID, SONG_ID)).thenReturn(null);
+
+        mockMvc.perform(
+                        delete("/api/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
+                                .header("token", TOKEN)
+                                .header("user", USER)
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteNonexistentMusicIntroPlaylist() throws Exception {
+
+        when(playlistServicePort.removeSongFromPlaylist(PLAYLIST_ID, SONG_ID))
+                .thenThrow(new SongsNotFoundException("Specified song was not found."));
+
+        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
+                .thenReturn(ResponseEntity.status(201).body("ok"));
+
+        mockMvc.perform(
+                        delete("/api/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
+                                .header("token", TOKEN)
+                                .header("user", USER)).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteMusicIntroNonexistentPlaylist() throws Exception {
+
+        when(playlistServicePort.removeSongFromPlaylist(PLAYLIST_ID, SONG_ID))
+                .thenThrow(new PlaylistsNotFoundException("Specified playlist was not found."));
+
+        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
+                .thenReturn(ResponseEntity.status(201).body("ok"));
+
+        mockMvc.perform(
+                delete("/api/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
+                        .header("token", TOKEN)
+                        .header("user", USER)).andExpect(status().isBadRequest());
+    }
     private static List<PlaylistSongsRequestDTO> songsRequestDTOGenerator() {
         ArtistDTO artistDTO = new ArtistDTO("uuid", "artist name");
         SongDTO songDTO1 = new SongDTO("uuid", "song 1", artistDTO);
