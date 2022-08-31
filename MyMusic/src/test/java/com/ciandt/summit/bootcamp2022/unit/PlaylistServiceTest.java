@@ -11,6 +11,7 @@ import com.ciandt.summit.bootcamp2022.domains.playlists.ports.repositories.Playl
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.repositories.SongRepositoryPort;
+import com.ciandt.summit.bootcamp2022.infra.adapters.entities.PlaylistEntity;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -32,6 +32,7 @@ import static org.mockito.Mockito.when;
 public class PlaylistServiceTest {
     @MockBean
     private PlaylistRespositoryPort playlistRespositoryPort;
+
     @MockBean
     private SongRepositoryPort songRepositoryPort;
 
@@ -118,5 +119,67 @@ public class PlaylistServiceTest {
         });
 
         assertEquals("Specified playlist was not found", thrown.getMessage());
+    }
+
+    @Test
+    void removeExistingSongFromPlaylist() throws PlaylistsNotFoundException, SongsNotFoundException {
+        Playlist playlist = PLAYLISTS_FROM_REPO.get(0);
+        Song songToRemove = playlist.getSongs().get(0);
+
+        String playlistId = playlist.getId();
+        String firstSongId = songToRemove.getId();
+
+        List<Song> playlistExpectedSongs = playlist.getSongs().subList(1, playlist.getSongs().size());
+        Playlist playlistExpected = new Playlist(playlistId, playlistExpectedSongs);
+        PlaylistEntity playlistEntity = new PlaylistEntity(playlistExpected);
+
+        when(playlistRespositoryPort.findById(playlistId)).thenReturn(playlist);
+        when(songRepositoryPort.findById(songToRemove.getId())).thenReturn(songToRemove);
+        when(playlistRespositoryPort.addSong(playlistEntity)).thenReturn(playlistExpected);
+
+        Playlist playlistResult = assertDoesNotThrow(() -> playlistServicePort.removeSongFromPlaylist(playlistId, firstSongId));
+
+        assertFalse(playlist.getSongs().contains(songToRemove));
+        assertEquals(playlistExpected, playlistResult);
+    }
+
+    @Test
+    void removeNonExistentSongFromPlaylist() throws PlaylistsNotFoundException, SongsNotFoundException {
+        Playlist playlist = PLAYLISTS_FROM_REPO.get(0);
+        Song songToRemove = playlist.getSongs().get(0);
+
+        String playlistId = playlist.getId();
+        String songToRemoveId = songToRemove.getId();
+
+        String exceptionMessageExpected = "Specified song was not found.";
+
+        when(playlistRespositoryPort.findById(playlistId)).thenReturn(playlist);
+        when(songRepositoryPort.findById(songToRemoveId)).thenThrow(new SongsNotFoundException("Specified song was not found."));
+
+        SongsNotFoundException exception = assertThrows(
+                SongsNotFoundException.class, () -> playlistServicePort.removeSongFromPlaylist(playlistId, songToRemoveId)
+        );
+
+        assertEquals(exception.getMessage(), exceptionMessageExpected);
+    }
+
+    @Test
+    public void removeSongNonIncludedInPlaylist() throws PlaylistsNotFoundException, SongsNotFoundException {
+        Playlist playlist = PLAYLISTS_FROM_REPO.get(0);
+        Song songToRemove = SONGS_FROM_REPO.get(3);
+
+        String playlistId = playlist.getId();
+        String songToRemoveId = songToRemove.getId();
+
+        String exceptionMessageExpected = "Specified song was not found in playlist";
+
+        when(playlistRespositoryPort.findById(playlistId)).thenReturn(playlist);
+        when(songRepositoryPort.findById(songToRemoveId)).thenReturn(songToRemove);
+
+        SongsNotFoundException exception = assertThrows(
+                SongsNotFoundException.class, () -> playlistServicePort.removeSongFromPlaylist(playlistId, songToRemoveId)
+        );
+
+        assertEquals(exception.getMessage(), exceptionMessageExpected);
     }
 }
