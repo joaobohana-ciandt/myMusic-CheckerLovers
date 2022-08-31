@@ -16,6 +16,19 @@ public class SongDTO {
         this.artist = artist;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SongDTO songDTO = (SongDTO) o;
+        return Objects.equals(id, songDTO.id) && Objects.equals(name, songDTO.name) && Objects.equals(artist, songDTO.artist);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, artist);
+    }
+
     public String getName() {
         return name;
     }
@@ -38,5 +51,13 @@ public class SongDTO {
 
     public void setArtist(ArtistDTO artist) {
         this.artist = artist;
+    }
+
+    @Override
+    public String toString() {
+        return "{\"id\":\"" + id + '\"' +
+                ",\"name\":\"" + name + '\"' +
+                ",\"artist\":" + artist +
+                '}';
     }
 }
