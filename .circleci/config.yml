@@ -28,15 +28,15 @@ jobs:
         working_directory: /home/circleci/project/MyMusic
       name: Validate
       command: mvn -B validate
-    - run:
-        working_directory: /home/circleci/project/MyMusic
-        name: Compile
-        command: mvn -B compile
-        # Then run your tests!
-    - run:
-        working_directory: /home/circleci/project/MyMusic
-        name: Test
-        command: mvn test
+      - run:
+          working_directory: /home/circleci/project/MyMusic
+          name: Compile
+          command: mvn -B compile
+          # Then run your tests!
+      - run:
+          working_directory: /home/circleci/project/MyMusic
+          name: Test
+          command: mvn test
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
