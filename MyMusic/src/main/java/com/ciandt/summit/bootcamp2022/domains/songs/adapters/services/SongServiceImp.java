@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class SongServiceImp implements SongServicePort {
 
-    private static Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
     private final SongRepositoryPort songRepositoryPort;
 
     public SongServiceImp(SongRepositoryPort songRepositoryPort) {
@@ -59,11 +59,6 @@ public class SongServiceImp implements SongServicePort {
     }
 
     private List<SongDTO> convertSongListToDTOList(List<Song> songs) throws SongsNotFoundException {
-        if(songs.isEmpty()){
-            logger.error("Recebe o erro No songs were found");
-            throw new SongsNotFoundException("No songs were found.");
-        }
-
         return songs.stream()
                 .map(Song::toDTO)
                 .collect(Collectors.toList());

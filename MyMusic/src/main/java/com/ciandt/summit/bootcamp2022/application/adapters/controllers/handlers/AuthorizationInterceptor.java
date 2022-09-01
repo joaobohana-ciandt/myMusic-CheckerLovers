@@ -2,15 +2,13 @@ package com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers
 
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.BadAuthRequestException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.UnauthorizedException;
-import com.ciandt.summit.bootcamp2022.domains.token.dto.CreateAuthorizerDTO;
-import com.ciandt.summit.bootcamp2022.domains.token.dto.CreateAuthorizerDataDTO;
+import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDTO;
+import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDataDTO;
 import com.ciandt.summit.bootcamp2022.infra.feignclients.TokenProvider;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

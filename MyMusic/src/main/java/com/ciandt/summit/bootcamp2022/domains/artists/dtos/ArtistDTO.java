@@ -48,7 +48,7 @@ public class ArtistDTO {
     }
 
     public Artist toArtist() {
-        return new Artist(id, name, new ArrayList<Song>());
+        return new Artist(id, name, new ArrayList<>());
     }
 
     @Override

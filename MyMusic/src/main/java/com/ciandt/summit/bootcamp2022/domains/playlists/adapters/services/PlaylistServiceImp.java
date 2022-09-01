@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PlaylistServiceImp implements PlaylistServicePort {
 
-    private static Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
     private final PlaylistRespositoryPort playlistRespositoryPort;
     private final SongRepositoryPort songRepositoryPort;
 

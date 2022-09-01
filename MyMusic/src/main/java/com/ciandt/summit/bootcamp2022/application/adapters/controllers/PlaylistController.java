@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/playlists")
 public class PlaylistController implements PlaylistControllerDocs {
 
-    private static Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
     @Autowired
     private PlaylistServicePort playlistServicePort;
 
