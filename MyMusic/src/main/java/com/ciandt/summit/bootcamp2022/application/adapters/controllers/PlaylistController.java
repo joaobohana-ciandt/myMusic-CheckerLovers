@@ -31,8 +31,12 @@ public class PlaylistController implements PlaylistControllerDocs {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Override
-    public ResponseEntity<?> removeSongFromPlaylist(String playlistId, String songId) throws SongsNotFoundException, PlaylistsNotFoundException {
-        return null;
+    @DeleteMapping("/{playlistId}/musicas/{musicaId}")
+    public ResponseEntity<?> removeSongFromPlaylist(@PathVariable String playlistId,
+                                                    @PathVariable(name = "musicaId") String songId)
+            throws SongsNotFoundException, PlaylistsNotFoundException {
+        playlistServicePort.removeSongFromPlaylist(playlistId,songId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

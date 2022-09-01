@@ -16,14 +16,20 @@ public interface PlaylistControllerDocs {
 
     @ApiOperation("Add songs to existing playlist")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Added songs successfully"),
-            @ApiResponse(code = 400, message = "Could not find specified song(s) in the database"),
+            @ApiResponse(code = 201, message = "Added songs successfully"),
+            @ApiResponse(code = 400, message = "Could not find specified playlist or song(s) in the database"),
             @ApiResponse(code = 401, message = "")
     })
     ResponseEntity<?> addSongsToPlaylist(@PathVariable String playlistId,
                                                 @RequestBody PlaylistSongsRequestDTO playlistSongsRequestDTO)
             throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist;
 
+    @ApiOperation("Remove song from existing playlist")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Removed song successfully"),
+            @ApiResponse(code = 400, message = "Could not find specified playlist or song(s) in the database"),
+            @ApiResponse(code = 401, message = "")
+    })
     ResponseEntity<?> removeSongFromPlaylist(@PathVariable String playlistId,
                                              @PathVariable String songId)
             throws SongsNotFoundException, PlaylistsNotFoundException;
