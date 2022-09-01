@@ -35,6 +35,7 @@ public class PlaylistController implements PlaylistControllerDocs {
     public ResponseEntity<?> removeSongFromPlaylist(@PathVariable String playlistId,
                                                     @PathVariable(name = "musicaId") String songId)
             throws SongsNotFoundException, PlaylistsNotFoundException {
+        logger.info("Recebendo Request Delete para "+ playlistId + "/musicas" + songId);
         playlistServicePort.removeSongFromPlaylist(playlistId,songId);
 
         return ResponseEntity.status(HttpStatus.OK).build();

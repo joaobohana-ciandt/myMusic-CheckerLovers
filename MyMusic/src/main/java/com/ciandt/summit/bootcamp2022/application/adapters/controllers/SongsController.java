@@ -26,7 +26,7 @@ public class SongsController implements SongControllerDocs {
     public ResponseEntity<SongResponseDTO> findSongsByNameOrArtistName(@RequestParam(name = "filtro", required = false) String filter,
                                                                        @RequestParam(name = "pagina", defaultValue = "0") int pageNumber)
             throws SongsNotFoundException, InvalidSongNameOrArtistNameException {
-
+            logger.info("Recebendo Request Get para /musicas");
         SongResponseDTO response;
         if(filter == null){
             response = songServicePort.findAllSongs(pageNumber);
