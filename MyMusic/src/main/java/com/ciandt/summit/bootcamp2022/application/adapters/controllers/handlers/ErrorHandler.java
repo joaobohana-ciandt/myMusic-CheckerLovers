@@ -34,7 +34,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         } else {
             exceptionResponse = new ExceptionResponse(localDateTime, description);
         }
-
+        logger.error(description);
         return new ResponseEntity<>(exceptionResponse, httpStatus);
     }
 
