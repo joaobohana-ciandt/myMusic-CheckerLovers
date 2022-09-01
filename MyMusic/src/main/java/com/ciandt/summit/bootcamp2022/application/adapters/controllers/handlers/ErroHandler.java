@@ -31,6 +31,7 @@ public class ErroHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 new Date(), exception.getMessage(), request.getDescription(false)
         );
+        logger.error(exception.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -39,34 +40,41 @@ public class ErroHandler extends ResponseEntityExceptionHandler {
         ArrayList<SongDTO> songDTOS = new ArrayList<>();
         SongResponseDTO response = new SongResponseDTO(songDTOS);
         if (exception.getMessage().equals("No songs were found.")) {
+            logger.error(exception.getMessage());
             return ResponseEntity.noContent().build();
         } else {
+            logger.error(exception.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
 
     @ExceptionHandler(InvalidSongNameOrArtistNameException.class)
     public final ResponseEntity<SongDTO> handlerInvalidSongNameExceptions(Exception exception, WebRequest request) {
+        logger.error(exception.getMessage());
         return ResponseEntity.badRequest().build();
     }
 
     @ExceptionHandler(BadAuthRequestException.class)
     public final ResponseEntity<SongDTO> handlerBadRequestExceptions(Exception exception, WebRequest request) {
+        logger.error(exception.getMessage());
         return ResponseEntity.badRequest().build();
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public final ResponseEntity<SongDTO> handlerUnauthorizedExceptions(Exception exception, WebRequest request) {
+        logger.error(exception.getMessage());
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(PlaylistsNotFoundException.class)
     public final ResponseEntity<ArrayList<Playlist>> handlerPlaylistsNotFoundException(Exception exception, WebRequest request) {
+        logger.error(exception.getMessage());
         return ResponseEntity.badRequest().build();
     }
 
     @ExceptionHandler(DuplicatedSongInPlaylist.class)
     public final ResponseEntity<?> handlerDuplicatedSongInPlaylist(Exception exception, WebRequest request) {
+        logger.error(exception.getMessage());
         return ResponseEntity.badRequest().build();
     }
 }
