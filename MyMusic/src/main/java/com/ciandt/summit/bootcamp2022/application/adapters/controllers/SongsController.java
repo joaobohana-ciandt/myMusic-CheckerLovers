@@ -6,6 +6,8 @@ import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundExce
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongResponseDTO;
 
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.interfaces.SongServicePort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class SongsController implements SongControllerDocs {
+
+    private static Logger logger = LoggerFactory.getLogger(SongsController.class.getSimpleName());
 
     @Autowired
     private SongServicePort songServicePort;

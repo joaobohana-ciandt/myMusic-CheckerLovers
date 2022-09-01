@@ -6,6 +6,8 @@ import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.DuplicatedSongInP
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.playlists.dtos.PlaylistSongsRequestDTO;
 import com.ciandt.summit.bootcamp2022.domains.playlists.ports.interfaces.PlaylistServicePort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/playlists")
 public class PlaylistController implements PlaylistControllerDocs {
 
+    private static Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
     @Autowired
     private PlaylistServicePort playlistServicePort;
 
@@ -22,7 +25,7 @@ public class PlaylistController implements PlaylistControllerDocs {
     public ResponseEntity<?> addSongsToPlaylist(@PathVariable String playlistId,
                                                 @RequestBody PlaylistSongsRequestDTO playlistSongsRequestDTO)
             throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist {
-
+            logger.info("Recebendo Request Post para "+ playlistId+"/musicas");
         playlistServicePort.addSongsToPlaylist(playlistId, playlistSongsRequestDTO.getData());
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
