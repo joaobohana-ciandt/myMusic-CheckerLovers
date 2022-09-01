@@ -141,7 +141,7 @@ public class SongsControllerTest {
         String expectedResponseAsString = expectedResponse.toString().replaceAll(" ", "");
 
         assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
-        assertEquals(expectedResponseAsString, response.getContentAsString());
+        assertEquals("", response.getContentAsString());
     }
 
     @Test
