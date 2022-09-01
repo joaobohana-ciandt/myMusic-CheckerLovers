@@ -21,12 +21,15 @@ jobs:
       - checkout
       # Use mvn clean and package as the standard maven build phase
       - run:
+        working_directory: /home/circleci/project/MyMusic
           name: Install
           command: mvn clean install
       - run:
+        working_directory: /home/circleci/project/MyMusic
       name: Validate
       command: mvn -B validate
     - run:
+        working_directory: /home/circleci/project/MyMusic
         name: Compile
         command: mvn -B compile
         # Then run your tests!
