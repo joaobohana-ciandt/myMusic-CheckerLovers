@@ -23,6 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -119,6 +120,27 @@ public class PlaylistServiceTest {
         });
 
         assertEquals("Specified playlist was not found", thrown.getMessage());
+    }
+
+    @Test
+    void cannotAddDuplicatedSongToPlaylistTest() throws Exception {
+        String id = "ANY";
+        String exceptionMessageExpected = "Cannot add duplicate song(s) to playlist";
+        List<SongDTO> songs = List.of(SONGS_FROM_REPO.get(0), SONGS_FROM_REPO.get(0))
+                .stream().map(Song::toDTO)
+                .collect(Collectors.toList());
+
+        when(playlistRespositoryPort.findById(id))
+                .thenReturn(PLAYLISTS_FROM_REPO.get(0));
+
+        when(songRepositoryPort.findById(SONGS_FROM_REPO.get(0).getId()))
+                .thenReturn(SONGS_FROM_REPO.get(0));
+
+        DuplicatedSongInPlaylist exception = assertThrows(DuplicatedSongInPlaylist.class, () -> {
+            playlistServicePort.addSongsToPlaylist(id, songs);
+        });
+        
+        assertEquals(exception.getMessage(), exceptionMessageExpected);
     }
 
     @Test
