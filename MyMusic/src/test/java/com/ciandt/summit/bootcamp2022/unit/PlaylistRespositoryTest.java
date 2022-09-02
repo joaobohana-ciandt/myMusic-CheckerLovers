@@ -19,8 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -31,11 +30,12 @@ public class PlaylistRespositoryTest {
 
     @Autowired
     private PlaylistRespositoryPort playlistRespositoryPort;
-    private final String ID = "jhjh1222";
+
+    private SongEntity song;
     private Playlist playlist;
     private PlaylistEntity playlistEntity;
 
-    private SongEntity song;
+    private final String ID = "jhjh1222";
 
     @BeforeEach
     public void setup() {
@@ -50,24 +50,41 @@ public class PlaylistRespositoryTest {
         song.setArtist(artistEntity);
 
         playlistEntity.setSongs(List.of(song));
+
+        playlist = playlistEntity.toPlaylist();
     }
 
     @Test
-    public void PlaylistFound() throws PlaylistsNotFoundException {
+    public void playlistFound() throws PlaylistsNotFoundException {
         when(springPlaylistRepository.findById(ID))
                 .thenReturn(Optional.of(playlistEntity));
+
         Playlist result = playlistRespositoryPort.findById(ID);
 
-        assertTrue(result.equals(playlistEntity.toPlaylist()));
+        assertEquals(result, playlist);
     }
 
     @Test
-    public void PlaylistNotFound() throws PlaylistsNotFoundException {
+    public void playlistNotFound() {
+        String expectedExceptionMessage = "Specified playlist was not found";
+
         when(springPlaylistRepository.findById(ID))
                 .thenReturn(Optional.empty());
 
-        assertThrows(PlaylistsNotFoundException.class, () -> {
+        PlaylistsNotFoundException exception = assertThrows(PlaylistsNotFoundException.class, () -> {
             playlistRespositoryPort.findById(ID);
         });
+
+        assertEquals(exception.getMessage(), expectedExceptionMessage);
+    }
+
+    @Test
+    public void savePlaylist() {
+        when(springPlaylistRepository.save(playlistEntity))
+                .thenReturn(playlistEntity);
+
+        Playlist result = playlistRespositoryPort.addSong(playlistEntity);
+
+        assertEquals(result, playlist);
     }
 }
