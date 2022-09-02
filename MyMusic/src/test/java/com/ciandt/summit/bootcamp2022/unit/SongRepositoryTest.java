@@ -1,6 +1,8 @@
 package com.ciandt.summit.bootcamp2022.unit;
 
 import com.ciandt.summit.bootcamp2022.SummitBootcampApplication;
+import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
+import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 import com.ciandt.summit.bootcamp2022.domains.songs.SongsPaginated;
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.repositories.SongRepositoryPort;
 import com.ciandt.summit.bootcamp2022.infra.adapters.entities.ArtistEntity;
@@ -18,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -54,21 +57,38 @@ public class SongRepositoryTest {
     }
 
     @Test
-    public void findFirstSongsPage() {
+    public void findFirstSongsPageByName() {
+        int songsSizeExpected = 10;
         Pageable pageable = Pageable.ofSize(PAGE_SIZE).withPage(0);
+
         when(springSongRepository.findByNameOrArtistName(FILTER, pageable))
                 .thenReturn(new PageImpl<>(SONG_ENTITIES.subList(0, PAGE_SIZE)));
 
         SongsPaginated songsPaginated = songRepositoryPort.findByNameOrArtistName(FILTER, 0);
         boolean hasAnySongsOfSecondPage = songsPaginated.getData().stream().allMatch(s -> extractSongMockCode(s.getName()) <= 10);
 
-        assertEquals(songsPaginated.getData().size(), 10);
+        assertEquals(songsPaginated.getData().size(), songsSizeExpected);
         assertTrue(hasAnySongsOfSecondPage);
     }
 
     @Test
-    public void findSecondSongsPage() {
+    public void findFirstSongsByPage() {
+        int songsSizeExpected = 10;
+        Pageable pageable = Pageable.ofSize(PAGE_SIZE).withPage(0);
+
+        when(springSongRepository.findAll(pageable))
+                .thenReturn(new PageImpl<>(SONG_ENTITIES.subList(0, PAGE_SIZE)));
+
+        SongsPaginated songsPaginated = songRepositoryPort.findAllSongs(0);
+
+        assertEquals(songsPaginated.getData().size(), songsSizeExpected);
+    }
+
+    @Test
+    public void findSecondSongsPageByName() {
+        int songsSizeExpected = 10;
         Pageable pageable = Pageable.ofSize(PAGE_SIZE).withPage(1);
+
         when(springSongRepository.findByNameOrArtistName(FILTER, pageable))
                 .thenReturn(new PageImpl<>(SONG_ENTITIES.subList(PAGE_SIZE, PAGE_SIZE * 2)));
 
@@ -76,20 +96,50 @@ public class SongRepositoryTest {
         boolean hasOnlySongsOfSecondPage = songsPaginated.getData().stream().allMatch(s -> extractSongMockCode(s.getName()) > 10);
 
         assertTrue(hasOnlySongsOfSecondPage);
-        assertEquals(songsPaginated.getData().size(), 10);
-        assertEquals(songsPaginated.getTotalElements(), 10);
-        assertEquals(songsPaginated.getROWS_PER_PAGE(), 10);
+        assertEquals(songsPaginated.getData().size(), songsSizeExpected);
+        assertEquals(songsPaginated.getTotalElements(), songsSizeExpected);
+        assertEquals(songsPaginated.getROWS_PER_PAGE(), songsSizeExpected);
     }
 
     @Test
-    public void noSongsFound() {
+    public void noSongsFoundByName() {
+        int songsSizeExpected = 0;
         Pageable pageable = Pageable.ofSize(PAGE_SIZE).withPage(0);
+
         when(springSongRepository.findByNameOrArtistName("NOT FOUND", pageable))
                 .thenReturn(new PageImpl<>(new ArrayList<>()));
 
         SongsPaginated songsPaginated = assertDoesNotThrow(() -> songRepositoryPort.findByNameOrArtistName("NOT FOUND", 0));
 
         assertTrue(songsPaginated.getData().isEmpty());
-        assertEquals(songsPaginated.getTotalElements(), 0);
+        assertEquals(songsPaginated.getTotalElements(), songsSizeExpected);
+    }
+
+    @Test
+    public void findSongById() throws SongsNotFoundException {
+        SongEntity songEntity = SONG_ENTITIES.get(0);
+        Song songExpected = songEntity.toSong();
+
+        when(springSongRepository.findById(songExpected.getId()))
+                .thenReturn(Optional.of(songEntity));
+
+        Song songResult = songRepositoryPort.findById(songExpected.getId());
+
+        assertEquals(songResult, songExpected);
+    }
+
+    @Test
+    public void cannotFindSongById() {
+        String id = SONG_ENTITIES.get(0).getId();
+        String expectedExceptionMessage = "Specified song was not found.";
+
+        when(springSongRepository.findById(id))
+                .thenReturn(Optional.empty());
+
+        SongsNotFoundException exception = assertThrows(SongsNotFoundException.class,
+                () -> songRepositoryPort.findById(id)
+        );
+
+        assertEquals(exception.getMessage(), expectedExceptionMessage);
     }
 }
