@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.unit;
+package com.ciandt.summit.bootcamp2022.unit.repositories;
 
 import com.ciandt.summit.bootcamp2022.SummitBootcampApplication;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;

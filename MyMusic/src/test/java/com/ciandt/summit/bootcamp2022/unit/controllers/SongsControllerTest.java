@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.unit;
+package com.ciandt.summit.bootcamp2022.unit.controllers;
 
 import com.ciandt.summit.bootcamp2022.application.adapters.controllers.SongsController;
 import com.ciandt.summit.bootcamp2022.domains.artists.dtos.ArtistDTO;
