@@ -137,9 +137,6 @@ public class SongsControllerTest {
                         .header("user", USER)
                         .param("filtro", parameter)).andReturn().getResponse();
 
-        SongResponseDTO expectedResponse = setupResponse(List.of());
-        String expectedResponseAsString = expectedResponse.toString().replaceAll(" ", "");
-
         assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
         assertEquals("", response.getContentAsString());
     }
