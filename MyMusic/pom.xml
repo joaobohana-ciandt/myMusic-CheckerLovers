@@ -128,10 +128,14 @@
 						<exclude>com/ciandt/summit/bootcamp2022/infra/configs/**</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/infra/adapters/entities/**</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/Song.*</exclude>
-						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/dtos/**</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/domains/artists/Artist.**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/playlists/Playlist.*</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/SongsPaginated.*</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/token/dto/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/dtos/**</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/domains/artists/dtos/**</exclude>
-						<exclude>com/ciandt/summit/bootcamp2022/application/adapters/controllers/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/playlists/dtos/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/application/adapters/controllers/handlers/ExceptionResponse.**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
