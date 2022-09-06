@@ -37,4 +37,11 @@ public class PlaylistDTO {
         return new Playlist(id, toSongs);
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":\"" + id + '\"' +
+                ",\"songs\":\"" + songs +
+                '}';
+    }
 }
