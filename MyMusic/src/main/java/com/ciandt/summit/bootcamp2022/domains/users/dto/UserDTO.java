@@ -47,4 +47,14 @@ public class UserDTO {
     public void setUserTypeDTO(UserTypeDTO userTypeDTO) {
         this.userTypeDTO = userTypeDTO;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":\"" + id + '\"' +
+                ",\"name\":\"" + name + '\"' +
+                ",\"playlistDTO\":\"" + playlistDTO +
+                ",\"userTypeDTO\":\"" + userTypeDTO +
+                '}';
+    }
 }
