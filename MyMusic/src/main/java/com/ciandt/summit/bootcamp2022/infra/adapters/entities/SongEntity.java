@@ -29,7 +29,7 @@ public class SongEntity {
     public SongEntity(Song song) {
         this.id = song.getId();
         this.name = song.getName();
-        this.artist = new ArtistEntity(song.getArtistId());
+        this.artist = new ArtistEntity(song.getArtist());
     }
 
     public Song toSong() {

@@ -1,5 +1,7 @@
 package com.ciandt.summit.bootcamp2022.domains.userType.dto;
 
+import com.ciandt.summit.bootcamp2022.domains.userType.UserType;
+
 import java.util.Objects;
 
 public class UserTypeDTO {
@@ -25,6 +27,10 @@ public class UserTypeDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UserType toUserType(){
+        return new UserType(id, description);
     }
 
     @Override
