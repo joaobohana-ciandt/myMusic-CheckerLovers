@@ -1,10 +1,13 @@
 package com.ciandt.summit.bootcamp2022.domains.playlists;
 
+import com.ciandt.summit.bootcamp2022.domains.playlists.dtos.PlaylistDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
+import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Playlist {
     private String id;
@@ -46,5 +49,10 @@ public class Playlist {
 
     public void setSongs(List<Song> songs) {
         this.songs = songs;
+    }
+
+    public PlaylistDTO toPlaylistDTO(){
+        List<SongDTO> songDTOS = songs.stream().map(Song::toDTO).collect(Collectors.toList());
+        return new PlaylistDTO(id, songDTOS);
     }
 }
