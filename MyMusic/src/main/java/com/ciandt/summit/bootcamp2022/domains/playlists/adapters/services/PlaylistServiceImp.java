@@ -4,6 +4,7 @@ import com.ciandt.summit.bootcamp2022.application.adapters.controllers.PlaylistC
 import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.DuplicatedSongInPlaylist;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
+import com.ciandt.summit.bootcamp2022.domains.exceptions.users.UserNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.playlists.Playlist;
 import com.ciandt.summit.bootcamp2022.domains.playlists.ports.interfaces.PlaylistServicePort;
 import com.ciandt.summit.bootcamp2022.domains.playlists.ports.repositories.PlaylistRespositoryPort;
@@ -28,7 +29,7 @@ public class PlaylistServiceImp implements PlaylistServicePort {
     }
 
     @Override
-    public Playlist addSongsToPlaylist(String id, List<SongDTO> songs) throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist {
+    public Playlist addSongsToPlaylist(String id, String userId, List<SongDTO> songs) throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException {
         Playlist playlist = this.playlistRespositoryPort.findById(id);
 
         for (SongDTO songDTO : songs) {
