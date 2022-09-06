@@ -89,7 +89,7 @@ public class SongsControllerTest {
                 .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MvcResult response = mockMvc
-                .perform(get("/api/musicas")
+                .perform(get("/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter)).andReturn();
@@ -107,7 +107,7 @@ public class SongsControllerTest {
                 .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/api/musicas")
+                .perform(get("/musicas")
                         .header("token", TOKEN)
                         .header("user", USER))
                         .andReturn().getResponse();
@@ -132,7 +132,7 @@ public class SongsControllerTest {
                 .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/api/musicas")
+                .perform(get("/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter)).andReturn().getResponse();
@@ -155,7 +155,7 @@ public class SongsControllerTest {
                 .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/api/musicas")
+                .perform(get("/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter).param("pagina", "0")).andReturn().getResponse();
@@ -180,7 +180,7 @@ public class SongsControllerTest {
                 .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/api/musicas")
+                .perform(get("/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter).param("pagina", "0")).andReturn().getResponse();
