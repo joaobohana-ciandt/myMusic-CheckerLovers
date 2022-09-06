@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class SongServiceImp implements SongServicePort {
 
-    private static Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());
     private final SongRepositoryPort songRepositoryPort;
 
     public SongServiceImp(SongRepositoryPort songRepositoryPort) {
@@ -33,15 +33,12 @@ public class SongServiceImp implements SongServicePort {
             throw new InvalidSongNameOrArtistNameException("Filter must be at least 2 characters long.");
         }
 
-        SongsPaginated songs = songRepositoryPort.findByNameOrArtistName(name, pageNumber);
+        SongsPaginated songsPaginated = songRepositoryPort.findByNameOrArtistName(name, pageNumber);
 
-        if(songs == null){
-            logger.error("Recebe o erro No songs were found");
-            throw new SongsNotFoundException("No songs were found.");
-        }
+        checkSongsPaginatedValid(songsPaginated);
 
-        List<SongDTO> songDTOS = convertSongListToDTOList(songs.getData());
-        return new SongResponseDTO(songDTOS, songs.getTotalElements());
+        List<SongDTO> songDTOS = convertSongListToDTOList(songsPaginated.getData());
+        return new SongResponseDTO(songDTOS, songsPaginated.getTotalElements());
     }
 
     @Override
@@ -49,23 +46,22 @@ public class SongServiceImp implements SongServicePort {
             throws SongsNotFoundException {
         SongsPaginated songsPaginated = songRepositoryPort.findAllSongs(pageNumber);
 
-        if(songsPaginated == null){
-            logger.error("Recebe o erro No songs were found");
-            throw new SongsNotFoundException("No songs were found.");
-        }
+        checkSongsPaginatedValid(songsPaginated);
 
         List<SongDTO> songDTOS = convertSongListToDTOList(songsPaginated.getData());
         return new SongResponseDTO(songDTOS, songsPaginated.getTotalElements());
     }
 
-    private List<SongDTO> convertSongListToDTOList(List<Song> songs) throws SongsNotFoundException {
-        if(songs.isEmpty()){
-            logger.error("Recebe o erro No songs were found");
-            throw new SongsNotFoundException("No songs were found.");
-        }
-
+    private List<SongDTO> convertSongListToDTOList(List<Song> songs){
         return songs.stream()
                 .map(Song::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    private void checkSongsPaginatedValid(SongsPaginated songsPaginated) throws SongsNotFoundException {
+        if(songsPaginated == null){
+            logger.error("Recebe o erro No songs were found");
+            throw new SongsNotFoundException("No songs were found.");
+        }
     }
 }

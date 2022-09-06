@@ -4,8 +4,8 @@ import com.ciandt.summit.bootcamp2022.application.adapters.controllers.SongsCont
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.BadAuthRequestException;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongResponseDTO;
-import com.ciandt.summit.bootcamp2022.domains.token.dto.CreateAuthorizerDTO;
-import com.ciandt.summit.bootcamp2022.domains.token.dto.CreateAuthorizerDataDTO;
+import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDTO;
+import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDataDTO;
 import com.ciandt.summit.bootcamp2022.infra.feignclients.TokenProvider;
 import feign.FeignException;
 import feign.Request;
