@@ -1,15 +1,12 @@
 package com.ciandt.summit.bootcamp2022.unit.controllers;
 
 import com.ciandt.summit.bootcamp2022.application.adapters.controllers.SongsController;
+import com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers.AuthorizationInterceptor;
 import com.ciandt.summit.bootcamp2022.domains.artists.dtos.ArtistDTO;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.InvalidSongNameOrArtistNameException;
-import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongResponseDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.interfaces.SongServicePort;
-import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDTO;
-import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDataDTO;
-import com.ciandt.summit.bootcamp2022.infra.feignclients.TokenProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,11 +14,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,9 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(SongsController.class)
@@ -43,15 +40,13 @@ public class SongsControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TokenProvider tokenProvider;
+    private SongServicePort songServicePort;
 
     @MockBean
-    private SongServicePort songServicePort;
+    private AuthorizationInterceptor authorizationInterceptor;
 
     private final String TOKEN = "token";
     private final String USER = "user";
-
-    private CreateAuthorizerDTO fakeCreateAuthorizer;
 
     private static final List<SongDTO> SONGS_FROM_SERVICE = new ArrayList<>();
 
@@ -73,9 +68,9 @@ public class SongsControllerTest {
     }
 
     @BeforeEach
-    public void setupAuthorizer() {
-        CreateAuthorizerDataDTO createAuthorizerData = new CreateAuthorizerDataDTO(TOKEN, USER);
-        fakeCreateAuthorizer = new CreateAuthorizerDTO(createAuthorizerData);
+    public void setupAuthorizer() throws Exception {
+        when(authorizationInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any()))
+                .thenReturn(true);
     }
 
     @ParameterizedTest
@@ -84,9 +79,6 @@ public class SongsControllerTest {
     public void callFindSongsEndpointPassingInvalidParametersReturnsBadRequest(String parameter) throws Exception {
         when(songServicePort.findByNameOrArtistName(parameter, PAGE_NUMBER))
                 .thenThrow(new InvalidSongNameOrArtistNameException("Filter must be at least 2 characters long."));
-
-        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
-                .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MvcResult response = mockMvc
                 .perform(get("/api/musicas")
@@ -102,9 +94,6 @@ public class SongsControllerTest {
 
         when(songServicePort.findAllSongs(PAGE_NUMBER))
                 .thenReturn(new SongResponseDTO(SONGS_FROM_SERVICE));
-
-        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
-                .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MockHttpServletResponse response = mockMvc
                 .perform(get("/api/musicas")
@@ -128,9 +117,6 @@ public class SongsControllerTest {
         when(songServicePort.findByNameOrArtistName(parameter, PAGE_NUMBER))
                 .thenReturn(new SongResponseDTO(new ArrayList<>()));
 
-        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
-                .thenReturn(ResponseEntity.status(201).body("ok"));
-
         MockHttpServletResponse response = mockMvc
                 .perform(get("/api/musicas")
                         .header("token", TOKEN)
@@ -150,9 +136,6 @@ public class SongsControllerTest {
 
         when(songServicePort.findByNameOrArtistName(parameter, PAGE_NUMBER))
                 .thenReturn(new SongResponseDTO(SONGS_FROM_SERVICE.subList(0, 3)));
-
-        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
-                .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MockHttpServletResponse response = mockMvc
                 .perform(get("/api/musicas")
@@ -175,9 +158,6 @@ public class SongsControllerTest {
 
         when(songServicePort.findByNameOrArtistName(parameter, PAGE_NUMBER))
                 .thenReturn(new SongResponseDTO(SONGS_FROM_SERVICE));
-
-        when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
-                .thenReturn(ResponseEntity.status(201).body("ok"));
 
         MockHttpServletResponse response = mockMvc
                 .perform(get("/api/musicas")
