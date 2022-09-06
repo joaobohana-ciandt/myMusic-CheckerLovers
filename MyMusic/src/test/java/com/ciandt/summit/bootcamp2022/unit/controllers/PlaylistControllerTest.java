@@ -2,19 +2,16 @@ package com.ciandt.summit.bootcamp2022.unit.controllers;
 
 import com.ciandt.summit.bootcamp2022.application.adapters.controllers.PlaylistController;
 import com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers.AuthorizationInterceptor;
-import com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers.ErrorHandler;
 import com.ciandt.summit.bootcamp2022.domains.artists.Artist;
 import com.ciandt.summit.bootcamp2022.domains.artists.dtos.ArtistDTO;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistsNotFoundException;
+import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.DuplicatedSongInPlaylist;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.playlists.Playlist;
 import com.ciandt.summit.bootcamp2022.domains.playlists.dtos.PlaylistSongsRequestDTO;
 import com.ciandt.summit.bootcamp2022.domains.playlists.ports.interfaces.PlaylistServicePort;
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
-import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDTO;
-import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDataDTO;
-import com.ciandt.summit.bootcamp2022.infra.feignclients.TokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,19 +22,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.web.context.request.WebRequest;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -108,6 +102,15 @@ public class PlaylistControllerTest {
     public void cannotFindSongsTest() throws Exception {
         when(playlistServicePort.addSongsToPlaylist(PLAYLIST_ID, defaultPlaylistSongsRequestDTO.getData()))
                 .thenThrow(new SongsNotFoundException("Specified song was not found."));
+
+        mockMvc.perform(mockHttpServletRequestBuilder.content(defaultPlaylistSongsRequestDTO.toString()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void cannotAddDuplicateSongsInPlaylist() throws Exception {
+        when(playlistServicePort.addSongsToPlaylist(PLAYLIST_ID, defaultPlaylistSongsRequestDTO.getData()))
+                .thenThrow(DuplicatedSongInPlaylist.class);
 
         mockMvc.perform(mockHttpServletRequestBuilder.content(defaultPlaylistSongsRequestDTO.toString()))
                 .andExpect(status().isBadRequest());
