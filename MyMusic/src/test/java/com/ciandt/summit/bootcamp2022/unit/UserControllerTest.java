@@ -7,7 +7,7 @@ import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDTO;
 import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDataDTO;
 import com.ciandt.summit.bootcamp2022.domains.users.dto.UserDTO;
 import com.ciandt.summit.bootcamp2022.domains.users.ports.interfaces.UserServicePort;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -38,6 +38,7 @@ public class UserControllerTest {
 
     private final String USER = "user";
     private final String TOKEN = "token";
+
     private final String USER_ID = "USER_ID";
     private final String USER_NAME = "USER_NAME";
 
@@ -53,10 +54,11 @@ public class UserControllerTest {
 
     @Test
     public void findUserByIdPassingValidUserId() throws Exception {
-        when(userServicePort.findById(USER_ID)).thenReturn(new UserDTO(USER_ID, USER_NAME, null, null));
+        when(userServicePort.findById(USER_ID)).
+                thenReturn(new UserDTO(USER_ID, USER_NAME, null, null));
 
         MvcResult response = mockMvc
-                .perform(get("/api/users/{userId}", USER_ID)
+                .perform(get("/users/{userId}", USER_ID)
                         .header("token", TOKEN)
                         .header("user", USER)).andReturn();
 
@@ -64,7 +66,7 @@ public class UserControllerTest {
 
         String expectedResponseAsString = expectedUser.toString().replaceAll(" ", "");
 
-        String actualResponseAsString = response.toString().replaceAll(" ", "");
+        String actualResponseAsString = response.getResponse().getContentAsString().replaceAll(" ", "");
 
         assertEquals(HttpStatus.OK.value(), response.getResponse().getStatus());
         assertEquals(expectedResponseAsString, actualResponseAsString);
@@ -76,7 +78,7 @@ public class UserControllerTest {
                 .thenThrow(new UserNotFoundException("Specified user was not found."));
 
         MvcResult response = mockMvc
-                .perform(get("/api/users/{userId}", "INVALID_ID")
+                .perform(get("/users/{userId}", "INVALID_ID")
                         .header("token", TOKEN)
                         .header("user", USER)).andReturn();
 
