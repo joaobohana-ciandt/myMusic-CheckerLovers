@@ -5,19 +5,45 @@ import com.ciandt.summit.bootcamp2022.domains.userType.UserType;
 import com.ciandt.summit.bootcamp2022.domains.users.dto.UserDTO;
 
 public class User {
+    private String id;
+    private String name;
+    private Playlist playlist;
+    private UserType userType;
 
     public User() {
     }
 
     public User(String id, String name, Playlist playlist, UserType userType) {
-
+        this.id = id;
+        this.name = name;
+        this.userType = userType;
+        this.playlist = playlist;
     }
 
     public User(UserDTO userDTO) {
-
+        this.id = userDTO.getId();
+        this.name = userDTO.getName();
+        this.playlist = userDTO.getPlaylistDTO().toPlaylist();
+        this.userType = userDTO.getUserTypeDTO().toUserType();
     }
 
     public UserDTO toDTO() {
-        return null;
+        return new UserDTO(id, name, playlist.toPlaylistDTO(), userType.toDTO());
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public UserType getUserType() {
+        return userType;
     }
 }
