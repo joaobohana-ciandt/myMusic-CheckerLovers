@@ -159,18 +159,51 @@
 							<rules>
 								<rule>
 									<element>PACKAGE</element>
-									<limits>
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.9</minimum>
-										</limit>
-									</limits>
+<!--									<limits>-->
+<!--										<limit>-->
+<!--											<counter>LINE</counter>-->
+<!--											<value>COVEREDRATIO</value>-->
+<!--											<minimum>0.9</minimum>-->
+<!--										</limit>-->
+<!--									</limits>-->
 								</rule>
 							</rules>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+			<groupId>org.pitest</groupId>
+			<artifactId>pitest-maven</artifactId>
+			<version>1.4.3</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-junit5-plugin</artifactId>
+						<version>0.8</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<verbose>true</verbose>
+					<targetClasses>
+						<param>com.ciandt.summit.bootcamp2022.infra.adapters.repositories*</param>
+						<param>com.ciandt.summit.bootcamp2022.application.adapters.controllers*</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.playlists.adapters.services*</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.songs.adapters.services*</param>
+					</targetClasses>
+					<excludedClasses>
+						<param>com.ciandt.summit.bootcamp2022.application.adapters.controllers.docs*</param>
+						<param>com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers.ExceptionResponse*</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.token</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.exceptions*</param>
+						<param>com.ciandt.summit.bootcamp2022.infra.configs*</param>
+						<param>com.ciandt.summit.bootcamp2022.infra.feignclients*</param>
+						<param>com.ciandt.summit.bootcamp2022.infra.adapters.entities*</param>
+					</excludedClasses>
+					<targetTests>
+						<param>com.ciandt.summit.bootcamp2022.unit*</param>
+					</targetTests>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

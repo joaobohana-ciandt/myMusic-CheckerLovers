@@ -43,6 +43,7 @@ Os 3 tipos de commit que utilizaremos são:
     * [Maven](https://maven.apache.org/)
     * [SpringBoot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
     * [Swagger](https://swagger.io/docs/)
+    * [Heroku](https://www.heroku.com/)
 - **CI**: CircleCI
 
 ## 📋 Stories
@@ -54,10 +55,11 @@ In progress: [status](https://img.shields.io/badge/-IN%20PROGRESS-blue)
 Done: [status](https://img.shields.io/badge/-DONE-green)
 -->
 
-| Story                        | Descrição                                                          | Status                                                       |
-|------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------|
-| Buscar novas músicas         | Adicionar o sistema de busca de músicas, com filtro opcional       | ![status](https://img.shields.io/badge/-IN%20PROGRESS-blue)  |
-| Adicionar música na playlist | Adicionar o sistema de playlists, com adição de músicas à playlist | ![status](https://img.shields.io/badge/-IN%20PROGRESS-blue)  |        |
+| Story                        | Descrição                                                          | Status                                              |
+|------------------------------|--------------------------------------------------------------------|-----------------------------------------------------|
+| Buscar novas músicas         | Adicionar o sistema de busca de músicas, com filtro opcional       | ![status](https://img.shields.io/badge/-DONE-green) |
+| Adicionar música na playlist | Adicionar o sistema de playlists, com adição de músicas à playlist | ![status](https://img.shields.io/badge/-DONE-green) |        |
+| Remover música da playlist   | Adicionar endpoint para remover uma música de uma playlist         | ![status](https://img.shields.io/badge/-DONE-green) |
 
 ## ✒ Equipe
 

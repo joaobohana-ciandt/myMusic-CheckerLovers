@@ -7,8 +7,8 @@ import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundExce
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongResponseDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.interfaces.SongServicePort;
-import com.ciandt.summit.bootcamp2022.domains.token.dto.CreateAuthorizerDTO;
-import com.ciandt.summit.bootcamp2022.domains.token.dto.CreateAuthorizerDataDTO;
+import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDTO;
+import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDataDTO;
 import com.ciandt.summit.bootcamp2022.infra.feignclients.TokenProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -126,7 +126,7 @@ public class SongsControllerTest {
         String parameter = "NOT_FOUND";
 
         when(songServicePort.findByNameOrArtistName(parameter, PAGE_NUMBER))
-                .thenThrow(new SongsNotFoundException("No songs were found."));
+                .thenReturn(new SongResponseDTO(new ArrayList<>()));
 
         when(tokenProvider.createTokenAuthorizer(fakeCreateAuthorizer))
                 .thenReturn(ResponseEntity.status(201).body("ok"));

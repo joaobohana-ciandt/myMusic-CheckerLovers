@@ -1,27 +1,29 @@
 package com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers;
 
-import lombok.Data;
-
-
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 public class ExceptionResponse implements Serializable {
 
     private static final long serialVerersionUID =1L;
 
-    private Date timestamp;
+    private LocalDateTime timestamp;
     private String message;
     private String details;
 
-    public ExceptionResponse(Date timestamp, String message, String details) {
-        this.timestamp = timestamp;
+    public ExceptionResponse(LocalDateTime localDateTime, String message) {
+        this.timestamp = localDateTime;
         this.message = message;
+    }
+
+    public ExceptionResponse(LocalDateTime localDateTime, String message, String details) {
+        this(localDateTime, message);
+
         this.details = details;
     }
 
-    public Date getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
@@ -31,5 +33,17 @@ public class ExceptionResponse implements Serializable {
 
     public String getDetails() {
         return details;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 }
