@@ -4,6 +4,7 @@ import com.ciandt.summit.bootcamp2022.application.adapters.controllers.docs.Play
 import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.DuplicatedSongInPlaylist;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
+import com.ciandt.summit.bootcamp2022.domains.exceptions.users.UserNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.playlists.dtos.PlaylistSongsRequestDTO;
 import com.ciandt.summit.bootcamp2022.domains.playlists.ports.interfaces.PlaylistServicePort;
 import org.slf4j.Logger;
@@ -23,10 +24,11 @@ public class PlaylistController implements PlaylistControllerDocs {
 
     @PostMapping("/{playlistId}/musicas")
     public ResponseEntity<?> addSongsToPlaylist(@PathVariable String playlistId,
+                                                @PathVariable String userId,
                                                 @RequestBody PlaylistSongsRequestDTO playlistSongsRequestDTO)
-            throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist {
+            throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException {
             logger.info("Recebendo Request Post para "+ playlistId+"/musicas");
-        playlistServicePort.addSongsToPlaylist(playlistId, playlistSongsRequestDTO.getData());
+        playlistServicePort.addSongsToPlaylist(playlistId, null, playlistSongsRequestDTO.getData());
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
