@@ -1,6 +1,6 @@
 package com.ciandt.summit.bootcamp2022.infra.feignclients;
 
-import com.ciandt.summit.bootcamp2022.domains.token.dto.CreateAuthorizerDTO;
+import com.ciandt.summit.bootcamp2022.domains.tokens.dto.CreateAuthorizerDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

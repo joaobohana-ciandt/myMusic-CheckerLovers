@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.domains.token.dto;
+package com.ciandt.summit.bootcamp2022.domains.tokens.dto;
 
 import java.util.Objects;
 

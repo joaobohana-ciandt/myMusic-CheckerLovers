@@ -34,12 +34,13 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         } else {
             exceptionResponse = new ExceptionResponse(localDateTime, description);
         }
+
         logger.error(description);
         return new ResponseEntity<>(exceptionResponse, httpStatus);
     }
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponse> handlerAllExceptions(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception exception, WebRequest request) {
         return this.buildResponseEntityExeption(
                 exception.getMessage(),
                 null,
@@ -48,48 +49,38 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(SongsNotFoundException.class)
-    public final ResponseEntity<ExceptionResponse> handlerSongNotFoundExceptions(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleSongNotFoundExceptions(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
-
-        if (exceptionMessage.equals("No songs were found.")) {
-            return ResponseEntity.noContent().build();
-        }
-
         return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidSongNameOrArtistNameException.class)
-    public final ResponseEntity<ExceptionResponse> handlerInvalidSongNameExceptions(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleInvalidSongNameExceptions(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
-
         return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BadAuthRequestException.class)
-    public final ResponseEntity<ExceptionResponse> handlerBadRequestExceptions(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
-
         return buildResponseEntityExeption(exceptionMessage, "verify the headers before send request", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public final ResponseEntity<ExceptionResponse> handlerUnauthorizedExceptions(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleUnauthorizedExceptions(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
-
         return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(PlaylistsNotFoundException.class)
-    public final ResponseEntity<ExceptionResponse> handlerPlaylistsNotFoundException(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handlePlaylistsNotFoundException(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
-
         return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DuplicatedSongInPlaylist.class)
-    public final ResponseEntity<ExceptionResponse> handlerDuplicatedSongInPlaylist(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleDuplicatedSongInPlaylist(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
-
         return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
 }
