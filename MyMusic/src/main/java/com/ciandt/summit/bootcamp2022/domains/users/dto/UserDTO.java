@@ -53,8 +53,8 @@ public class UserDTO {
         return "{" +
                 "\"id\":\"" + id + '\"' +
                 ",\"name\":\"" + name + '\"' +
-                ",\"playlistDTO\":\"" + playlistDTO +
-                ",\"userTypeDTO\":\"" + userTypeDTO +
+                ",\"playlistDTO\":" + playlistDTO +
+                ",\"userTypeDTO\":" + userTypeDTO +
                 '}';
     }
 }
