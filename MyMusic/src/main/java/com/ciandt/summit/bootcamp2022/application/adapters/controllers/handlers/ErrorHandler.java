@@ -6,9 +6,7 @@ import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.InvalidSongNameOr
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.BadAuthRequestException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.UnauthorizedException;
-import com.ciandt.summit.bootcamp2022.domains.playlists.Playlist;
-import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
-import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongResponseDTO;
+import com.ciandt.summit.bootcamp2022.domains.exceptions.users.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,8 +16,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 
 @ControllerAdvice
 @RestController
@@ -80,6 +76,12 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DuplicatedSongInPlaylist.class)
     public final ResponseEntity<ExceptionResponse> handleDuplicatedSongInPlaylist(Exception exception, WebRequest request) {
+        String exceptionMessage = exception.getMessage();
+        return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
         return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
