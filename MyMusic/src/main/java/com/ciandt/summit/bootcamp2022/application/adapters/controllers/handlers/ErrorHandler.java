@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers;
 
+import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistSongLimitExceededException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.DuplicatedSongInPlaylist;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.InvalidSongNameOrArtistNameException;
@@ -79,6 +80,12 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(Exception exception, WebRequest request) {
+        String exceptionMessage = exception.getMessage();
+        return buildResponseEntityException(exceptionMessage, null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PlaylistSongLimitExceededException.class)
+    public final ResponseEntity<ExceptionResponse> handlePlaylistSongLimitExceededException(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
         return buildResponseEntityException(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
