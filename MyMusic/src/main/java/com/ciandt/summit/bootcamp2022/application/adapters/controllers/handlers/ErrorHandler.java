@@ -80,6 +80,6 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
-        return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
+        return buildResponseEntityException(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
 }

@@ -43,9 +43,9 @@ public class UserServiceTest {
 
     @Test
     public void findUserByPassingCorrectId() throws UserNotFoundException {
-        Mockito.when(userRepositoryPort.findById(Mockito.any())).thenReturn(userDTO);
+        Mockito.when(userRepositoryPort.findById(Mockito.any())).thenReturn(user);
 
-        UserDTO result = userRepositoryPort.findById(Mockito.any());
+        User result = userRepositoryPort.findById(Mockito.any());
 
         Assertions.assertNotNull(result);
     }
