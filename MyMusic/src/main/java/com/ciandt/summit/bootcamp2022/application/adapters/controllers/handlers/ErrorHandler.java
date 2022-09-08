@@ -6,6 +6,7 @@ import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.InvalidSongNameOr
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.BadAuthRequestException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.tokens.UnauthorizedException;
+import com.ciandt.summit.bootcamp2022.domains.exceptions.users.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -74,5 +75,11 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<ExceptionResponse> handleDuplicatedSongInPlaylist(Exception exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
         return buildResponseEntityException(exceptionMessage, null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(Exception exception, WebRequest request) {
+        String exceptionMessage = exception.getMessage();
+        return buildResponseEntityExeption(exceptionMessage, null, HttpStatus.BAD_REQUEST);
     }
 }
