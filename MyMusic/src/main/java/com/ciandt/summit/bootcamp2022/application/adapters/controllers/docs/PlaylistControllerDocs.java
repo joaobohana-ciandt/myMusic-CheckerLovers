@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.application.adapters.controllers.docs;
 
+import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistSongLimitExceededException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.playlists.PlaylistsNotFoundException;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.DuplicatedSongInPlaylist;
 import com.ciandt.summit.bootcamp2022.domains.exceptions.songs.SongsNotFoundException;
@@ -24,7 +25,7 @@ public interface PlaylistControllerDocs {
     ResponseEntity<?> addSongsToPlaylist(@PathVariable String playlistId,
                                          @PathVariable String userId,
                                                 @RequestBody PlaylistSongsRequestDTO playlistSongsRequestDTO)
-            throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException;
+            throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException, PlaylistSongLimitExceededException;
 
     @ApiOperation("Remove song from existing playlist")
     @ApiResponses(value = {

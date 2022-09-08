@@ -46,4 +46,20 @@ public class User {
     public UserType getUserType() {
         return userType;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
 }
