@@ -18,7 +18,7 @@ public class UserServiceImp implements UserServicePort {
 
     @Override
     public UserDTO findById(String id) throws UserNotFoundException {
-        UserDTO user = this.userRepositoryPort.findById(id);
+        UserDTO user = this.userRepositoryPort.findById(id).toDTO();
         if (user == null) {
             throw new UserNotFoundException("User not found!");
         }

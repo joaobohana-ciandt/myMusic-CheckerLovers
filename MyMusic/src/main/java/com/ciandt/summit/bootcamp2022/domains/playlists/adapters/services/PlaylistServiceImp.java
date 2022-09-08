@@ -36,7 +36,7 @@ public class PlaylistServiceImp implements PlaylistServicePort {
     @Override
     public Playlist addSongsToPlaylist(String playlistId, String userId, List<SongDTO> songs) throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException, PlaylistSongLimitExceededException {
         Playlist playlist = this.playlistRespositoryPort.findById(playlistId);
-        UserDTO user = this.userRepositoryPort.findById(userId);
+        UserDTO user = this.userRepositoryPort.findById(userId).toDTO();
 
         if (user.getUserTypeDTO().getDescription().contains("premium")) {
             validateSong(songs, playlist);

@@ -103,7 +103,7 @@ public class PlaylistServiceTest {
         songs.add(SONGS_FROM_REPO.get(2).toDTO());
 
         when(playlistRespositoryPort.findById(id)).thenReturn(PLAYLISTS_FROM_REPO.get(2));
-        when(userRepositoryPort.findById("hh11")).thenReturn(USER_FROM_REPO.toDTO());
+        when(userRepositoryPort.findById("hh11")).thenReturn(USER_FROM_REPO);
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(0).getId())).thenReturn(SONGS_FROM_REPO.get(0));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(1).getId())).thenReturn(SONGS_FROM_REPO.get(1));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(2).getId())).thenReturn(SONGS_FROM_REPO.get(2));
@@ -240,7 +240,7 @@ public class PlaylistServiceTest {
         songs.add(SONGS_FROM_REPO.get(2).toDTO());
 
         when(playlistRespositoryPort.findById(id)).thenReturn(PLAYLISTS_FROM_REPO.get(2));
-        when(userRepositoryPort.findById("hh11")).thenReturn(USER_FROM_REPO.toDTO());
+        when(userRepositoryPort.findById("hh11")).thenReturn(USER_FROM_REPO);
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(0).getId())).thenReturn(SONGS_FROM_REPO.get(0));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(1).getId())).thenReturn(SONGS_FROM_REPO.get(1));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(2).getId())).thenReturn(SONGS_FROM_REPO.get(2));
@@ -268,7 +268,7 @@ public class PlaylistServiceTest {
         Playlist playlist1 = new Playlist("hhrr", songs2);
 
         when(playlistRespositoryPort.findById(id)).thenReturn(playlist1);
-        when(userRepositoryPort.findById(any())).thenReturn(USER_FROM_REPO_COMMON.toDTO());
+        when(userRepositoryPort.findById(any())).thenReturn(USER_FROM_REPO_COMMON);
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(0).getId())).thenReturn(SONGS_FROM_REPO.get(0));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(1).getId())).thenReturn(SONGS_FROM_REPO.get(1));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(2).getId())).thenReturn(SONGS_FROM_REPO.get(2));
@@ -292,7 +292,7 @@ public class PlaylistServiceTest {
         Playlist playlist1 = new Playlist("hhrr", songs2);
 
         when(playlistRespositoryPort.findById(id)).thenReturn(playlist1);
-        when(userRepositoryPort.findById(any())).thenReturn(USER_FROM_REPO_COMMON.toDTO());
+        when(userRepositoryPort.findById(any())).thenReturn(USER_FROM_REPO_COMMON);
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(0).getId())).thenReturn(SONGS_FROM_REPO.get(0));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(1).getId())).thenReturn(SONGS_FROM_REPO.get(1));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(2).getId())).thenReturn(SONGS_FROM_REPO.get(2));

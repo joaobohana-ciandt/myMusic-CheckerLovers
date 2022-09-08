@@ -73,7 +73,7 @@ public class PlaylistControllerTest {
 
         mockHttpServletRequestBuilder = post("/playlists/{playlistId}/musicas", PLAYLIST_ID)
                 .header("token", TOKEN)
-                .header("user", USER)
+                .header("user", USER);
         mockHttpServletRequestBuilder = post("/api/playlists/{playlistId}/musicas", PLAYLIST_ID)
                 .contentType(MediaType.APPLICATION_JSON);
 
