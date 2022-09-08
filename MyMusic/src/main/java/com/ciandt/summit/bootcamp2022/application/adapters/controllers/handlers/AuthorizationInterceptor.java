@@ -34,7 +34,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         CreateAuthorizerDataDTO createAuthorizerData = new CreateAuthorizerDataDTO(token, user);
         CreateAuthorizerDTO createAuthorizer = new CreateAuthorizerDTO(createAuthorizerData);
 
-        ResponseEntity<String> tokenProviderResponse = null;
+        ResponseEntity<String> tokenProviderResponse;
 
         try {
             tokenProviderResponse = tokenProvider.createTokenAuthorizer(createAuthorizer);
@@ -42,8 +42,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             if (e.status() == 400) {
                 throw new UnauthorizedException("User unauthorized");
             }
+
+            throw e;
         }
 
-        return tokenProviderResponse != null && tokenProviderResponse.getBody().equals("ok");
+        return tokenProviderResponse.getBody().equals("ok");
     }
 }
