@@ -6,5 +6,5 @@ import com.ciandt.summit.bootcamp2022.domains.users.dto.UserDTO;
 
 public interface UserRepositoryPort {
 
-    UserDTO findById(String id) throws UserNotFoundException;
+    User findById(String id) throws UserNotFoundException;
 }
