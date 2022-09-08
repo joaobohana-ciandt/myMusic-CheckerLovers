@@ -30,7 +30,7 @@ public class UserServiceTest {
     private UserRepositoryPort userRepositoryPort;
     @InjectMocks
     private UserServiceImp userServiceImp;
-
+    @Mock
     private User user;
     @Mock
     private UserDTO userDTO;
