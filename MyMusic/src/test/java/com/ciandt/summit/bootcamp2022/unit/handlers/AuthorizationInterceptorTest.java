@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = SongsController.class)
@@ -122,6 +123,17 @@ public class AuthorizationInterceptorTest {
                                 .header("user", USER)
                 )
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void authHeadersNotFoundTest() throws Exception {
+        mockMvc.perform(mockHttpServletRequestBuilder)
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> {
+                    String responseAsString = result.getResponse().getContentAsString();
+
+                    assertTrue(responseAsString.contains("verify the headers before send request"));
+                });
     }
 
     @ParameterizedTest
