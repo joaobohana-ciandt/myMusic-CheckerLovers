@@ -124,14 +124,25 @@
 				<version>${jacoco.version}</version>
 				<configuration>
 					<excludes>
-						<exclude>com/ciandt/summit/bootcamp2022/SummitBootcampApplication.*</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/infra/configs/**</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/infra/adapters/entities/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/SummitBootcampApplication.*</exclude>
+
 						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/Song.*</exclude>
-						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/dtos/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/users/User.*</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/userType/UserType.*</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/domains/artists/Artist.**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/playlists/Playlist.*</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/SongsPaginated.*</exclude>
+
+						<exclude>com/ciandt/summit/bootcamp2022/domains/users/dto/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/tokens/dto/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/songs/dtos/**</exclude>
 						<exclude>com/ciandt/summit/bootcamp2022/domains/artists/dtos/**</exclude>
-						<exclude>com/ciandt/summit/bootcamp2022/application/adapters/controllers/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/userType/dto/**</exclude>
+						<exclude>com/ciandt/summit/bootcamp2022/domains/playlists/dtos/**</exclude>
+
+						<exclude>com/ciandt/summit/bootcamp2022/application/adapters/controllers/handlers/ExceptionResponse.**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -158,14 +169,12 @@
 						<configuration>
 							<rules>
 								<rule>
-									<element>PACKAGE</element>
-<!--									<limits>-->
-<!--										<limit>-->
-<!--											<counter>LINE</counter>-->
-<!--											<value>COVEREDRATIO</value>-->
-<!--											<minimum>0.9</minimum>-->
-<!--										</limit>-->
-<!--									</limits>-->
+									<limits>
+										<limit>
+											<counter>INSTRUCTION</counter>
+											<minimum>90.0%</minimum>
+										</limit>
+									</limits>
 								</rule>
 							</rules>
 						</configuration>
@@ -186,23 +195,28 @@
 				<configuration>
 					<verbose>true</verbose>
 					<targetClasses>
-						<param>com.ciandt.summit.bootcamp2022.infra.adapters.repositories*</param>
-						<param>com.ciandt.summit.bootcamp2022.application.adapters.controllers*</param>
-						<param>com.ciandt.summit.bootcamp2022.domains.playlists.adapters.services*</param>
-						<param>com.ciandt.summit.bootcamp2022.domains.songs.adapters.services*</param>
+						<param>com.ciandt.summit.bootcamp2022.application.adapters.controllers.*</param>
+
+						<param>com.ciandt.summit.bootcamp2022.domains.exceptions.*</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.songs.adapters.services.*</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.users.adapters.Services.*</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.playlists.adapters.services.*</param>
+
+						<param>com.ciandt.summit.bootcamp2022.infra.adapters.repositories.*</param>
 					</targetClasses>
+					<targetTests>
+						<param>com.ciandt.summit.bootcamp2022.integration.*</param>
+						<param>com.ciandt.summit.bootcamp2022.unit.*</param>
+					</targetTests>
 					<excludedClasses>
 						<param>com.ciandt.summit.bootcamp2022.application.adapters.controllers.docs*</param>
 						<param>com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers.ExceptionResponse*</param>
-						<param>com.ciandt.summit.bootcamp2022.domains.token</param>
+						<param>com.ciandt.summit.bootcamp2022.domains.tokens.dto.*</param>
 						<param>com.ciandt.summit.bootcamp2022.domains.exceptions*</param>
 						<param>com.ciandt.summit.bootcamp2022.infra.configs*</param>
-						<param>com.ciandt.summit.bootcamp2022.infra.feignclients*</param>
+						<param>com.ciandt.summit.bootcamp2022.infra.feignclients.*</param>
 						<param>com.ciandt.summit.bootcamp2022.infra.adapters.entities*</param>
 					</excludedClasses>
-					<targetTests>
-						<param>com.ciandt.summit.bootcamp2022.unit*</param>
-					</targetTests>
 				</configuration>
 			</plugin>
 		</plugins>
