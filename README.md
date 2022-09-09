@@ -60,6 +60,7 @@ Done: [status](https://img.shields.io/badge/-DONE-green)
 | Buscar novas músicas         | Adicionar o sistema de busca de músicas, com filtro opcional       | ![status](https://img.shields.io/badge/-DONE-green) |
 | Adicionar música na playlist | Adicionar o sistema de playlists, com adição de músicas à playlist | ![status](https://img.shields.io/badge/-DONE-green) |        |
 | Remover música da playlist   | Adicionar endpoint para remover uma música de uma playlist         | ![status](https://img.shields.io/badge/-DONE-green) |
+| Criar perfil de usuário      | Adicionar endpoint para criar o usuario premium e comum            | ![status](https://img.shields.io/badge/-DONE-green)
 
 ## ✒ Equipe
 
