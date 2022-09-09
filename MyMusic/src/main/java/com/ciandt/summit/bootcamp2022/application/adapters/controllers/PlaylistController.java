@@ -24,7 +24,7 @@ public class PlaylistController implements PlaylistControllerDocs {
     @Autowired
     private PlaylistServicePort playlistServicePort;
 
-    @PostMapping("/{playlistId}/{userId}/musicas")
+     @PostMapping("/{playlistId}/{userId}/musicas")
     public ResponseEntity<?> addSongsToPlaylist(@PathVariable String playlistId,
                                                 @PathVariable String userId,
                                                 @RequestBody PlaylistSongsRequestDTO playlistSongsRequestDTO)

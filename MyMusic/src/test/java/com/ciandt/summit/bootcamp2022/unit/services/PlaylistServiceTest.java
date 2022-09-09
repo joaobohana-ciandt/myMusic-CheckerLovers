@@ -20,6 +20,7 @@ import com.ciandt.summit.bootcamp2022.domains.users.ports.repositories.UserRepos
 import com.ciandt.summit.bootcamp2022.infra.adapters.entities.PlaylistEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -61,8 +62,8 @@ public class PlaylistServiceTest {
     private final static User USER_FROM_REPO = new User();
     private final static User USER_FROM_REPO_COMMON = new User();
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    void setup() {
         Artist artist = new Artist(UUID.randomUUID().toString(), "Fake Artist", new ArrayList<>());
 
         List.of("About A Girl", "About A Boy", "About A Dog").forEach(name -> {
@@ -116,7 +117,7 @@ public class PlaylistServiceTest {
     }
 
     @Test
-    void addSongsToPlaylistPassingInvalidListOfSongs() throws PlaylistsNotFoundException, SongsNotFoundException {
+    void addSongsToPlaylistPassingInvalidListOfSongs() throws PlaylistsNotFoundException, SongsNotFoundException, UserNotFoundException {
         String id = PLAYLISTS_FROM_REPO.get(1).getId();
         List<SongDTO> songs = new ArrayList<>();
         songs.add(SONGS_FROM_REPO.get(1).toDTO());
@@ -124,6 +125,7 @@ public class PlaylistServiceTest {
         songs.add(song.toDTO());
 
         when(playlistRespositoryPort.findById(id)).thenReturn(PLAYLISTS_FROM_REPO.get(1));
+        when(userRepositoryPort.findById("hh11")).thenReturn(USER_FROM_REPO);
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(1).getId())).thenReturn(SONGS_FROM_REPO.get(1));
         when(songRepositoryPort.findById(song.getId())).thenThrow(new SongsNotFoundException("Specified song was not found."));
 
@@ -159,7 +161,7 @@ public class PlaylistServiceTest {
 
         when(playlistRespositoryPort.findById(id))
                 .thenReturn(PLAYLISTS_FROM_REPO.get(0));
-
+        when(userRepositoryPort.findById("hh11")).thenReturn(USER_FROM_REPO);
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(0).getId()))
                 .thenReturn(SONGS_FROM_REPO.get(0));
 
@@ -233,13 +235,13 @@ public class PlaylistServiceTest {
     }
     @Test
     void addSongsToPlaylistwithUserCommon() throws PlaylistsNotFoundException, SongsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException, PlaylistSongLimitExceededException {
-        String id = PLAYLISTS_FROM_REPO.get(2).getId();
+        String id = PLAYLISTS_FROM_REPO.get(3).getId();
         List<SongDTO> songs = new ArrayList<>();
         songs.add(SONGS_FROM_REPO.get(0).toDTO());
         songs.add(SONGS_FROM_REPO.get(1).toDTO());
         songs.add(SONGS_FROM_REPO.get(2).toDTO());
 
-        when(playlistRespositoryPort.findById(id)).thenReturn(PLAYLISTS_FROM_REPO.get(2));
+        when(playlistRespositoryPort.findById(id)).thenReturn(PLAYLISTS_FROM_REPO.get(3));
         when(userRepositoryPort.findById("hh11")).thenReturn(USER_FROM_REPO);
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(0).getId())).thenReturn(SONGS_FROM_REPO.get(0));
         when(songRepositoryPort.findById(SONGS_FROM_REPO.get(1).getId())).thenReturn(SONGS_FROM_REPO.get(1));
