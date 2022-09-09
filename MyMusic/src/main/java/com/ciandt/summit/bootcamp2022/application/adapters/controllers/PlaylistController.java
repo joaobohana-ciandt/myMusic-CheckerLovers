@@ -24,15 +24,7 @@ public class PlaylistController implements PlaylistControllerDocs {
     @Autowired
     private PlaylistServicePort playlistServicePort;
 
-    @PostMapping("/hi")
-    public ResponseEntity<?> addSongsToPlaylist()
-            throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException, PlaylistSongLimitExceededException {
-
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PostMapping("/{playlistId}/{userId}/musicas")
+     @PostMapping("/{playlistId}/{userId}/musicas")
     public ResponseEntity<?> addSongsToPlaylist(@PathVariable String playlistId,
                                                 @PathVariable String userId,
                                                 @RequestBody PlaylistSongsRequestDTO playlistSongsRequestDTO)
