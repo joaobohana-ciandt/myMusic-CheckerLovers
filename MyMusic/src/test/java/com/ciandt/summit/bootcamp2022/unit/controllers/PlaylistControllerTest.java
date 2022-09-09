@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(PlaylistController.class)
+@Import(PlaylistController.class)
 public class PlaylistControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -48,7 +50,9 @@ public class PlaylistControllerTest {
     private AuthorizationInterceptor authorizationInterceptor;
 
     private Playlist playlist;
+
     private PlaylistSongsRequestDTO defaultPlaylistSongsRequestDTO;
+
     private MockHttpServletRequestBuilder mockHttpServletRequestBuilder;
 
     private final String USER = "user";
@@ -71,10 +75,10 @@ public class PlaylistControllerTest {
                 .collect(Collectors.toList());
         defaultPlaylistSongsRequestDTO = new PlaylistSongsRequestDTO(songsMappedToDTO);
 
-        mockHttpServletRequestBuilder = post("/playlists/{playlistId}/musicas", PLAYLIST_ID)
+        mockHttpServletRequestBuilder = post("/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
                 .header("token", TOKEN)
                 .header("user", USER);
-        mockHttpServletRequestBuilder = post("/api/playlists/{playlistId}/musicas", PLAYLIST_ID)
+        mockHttpServletRequestBuilder = post("/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
                 .contentType(MediaType.APPLICATION_JSON);
 
         when(authorizationInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any()))
@@ -85,9 +89,14 @@ public class PlaylistControllerTest {
     @MethodSource("songsRequestDTOGenerator")
     public void addSongsToPlaylistTest(PlaylistSongsRequestDTO playlistSongsRequestDTO) throws Exception {
         when(playlistServicePort.addSongsToPlaylist(PLAYLIST_ID, USER_ID,playlistSongsRequestDTO.getData()))
-                .thenReturn(null);
+                .thenReturn(new Playlist());
 
-        mockMvc.perform(mockHttpServletRequestBuilder.content(playlistSongsRequestDTO.toString()))
+        mockMvc.perform(post("/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
+                .header("token", TOKEN)
+                .header("user", USER)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(playlistSongsRequestDTO.toString())
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }
 
