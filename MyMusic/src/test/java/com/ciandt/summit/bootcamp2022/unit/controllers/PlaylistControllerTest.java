@@ -75,10 +75,10 @@ public class PlaylistControllerTest {
                 .collect(Collectors.toList());
         defaultPlaylistSongsRequestDTO = new PlaylistSongsRequestDTO(songsMappedToDTO);
 
-        mockHttpServletRequestBuilder = post("/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
+        mockHttpServletRequestBuilder = post("/api/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
                 .header("token", TOKEN)
                 .header("user", USER);
-        mockHttpServletRequestBuilder = post("/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
+        mockHttpServletRequestBuilder = post("/api/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
                 .contentType(MediaType.APPLICATION_JSON);
 
         when(authorizationInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any()))
@@ -91,7 +91,7 @@ public class PlaylistControllerTest {
         when(playlistServicePort.addSongsToPlaylist(PLAYLIST_ID, USER_ID,playlistSongsRequestDTO.getData()))
                 .thenReturn(new Playlist());
 
-        mockMvc.perform(post("/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
+        mockMvc.perform(post("/api/playlists/{playlistId}/{userId}/musicas", PLAYLIST_ID, USER_ID)
                 .header("token", TOKEN)
                 .header("user", USER)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -134,7 +134,7 @@ public class PlaylistControllerTest {
         when(playlistServicePort.removeSongFromPlaylist(PLAYLIST_ID, SONG_ID)).thenReturn(null);
 
         mockMvc.perform(
-                        delete("/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
+                        delete("/api/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
                                 .header("token", TOKEN)
                                 .header("user", USER)
                 )
@@ -147,7 +147,7 @@ public class PlaylistControllerTest {
                 .thenThrow(new SongsNotFoundException("Specified song was not found."));
 
         mockMvc.perform(
-                        delete("/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
+                        delete("/api/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
                                 .header("token", TOKEN)
                                 .header("user", USER)).andExpect(status().isBadRequest());
     }
@@ -158,7 +158,7 @@ public class PlaylistControllerTest {
                 .thenThrow(new PlaylistsNotFoundException("Specified playlist was not found."));
 
         mockMvc.perform(
-                delete("/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
+                delete("/api/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID, SONG_ID)
                         .header("token", TOKEN)
                         .header("user", USER))
                 .andExpect(status().isBadRequest());

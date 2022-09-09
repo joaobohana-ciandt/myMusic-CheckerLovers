@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.unit;
+package com.ciandt.summit.bootcamp2022.unit.controllers;
 
 import com.ciandt.summit.bootcamp2022.application.adapters.controllers.UserController;
 import com.ciandt.summit.bootcamp2022.application.adapters.controllers.handlers.AuthorizationInterceptor;
@@ -58,7 +58,7 @@ public class UserControllerTest {
                 thenReturn(new UserDTO(USER_ID, USER_NAME, null, null));
 
         MvcResult response = mockMvc
-                .perform(get("/users/{userId}", USER_ID)
+                .perform(get("/api/users/{userId}", USER_ID)
                         .header("token", TOKEN)
                         .header("user", USER)).andReturn();
 
@@ -78,7 +78,7 @@ public class UserControllerTest {
                 .thenThrow(new UserNotFoundException("Specified user was not found."));
 
         MvcResult response = mockMvc
-                .perform(get("/users/{userId}", "INVALID_ID")
+                .perform(get("/api/users/{userId}", "INVALID_ID")
                         .header("token", TOKEN)
                         .header("user", USER)).andReturn();
 

@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/playlists")
+@RequestMapping("/api/playlists")
 public class PlaylistController implements PlaylistControllerDocs {
 
     private static final Logger logger = LoggerFactory.getLogger(PlaylistController.class.getSimpleName());

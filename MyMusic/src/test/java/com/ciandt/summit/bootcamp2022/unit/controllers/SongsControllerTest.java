@@ -81,7 +81,7 @@ public class SongsControllerTest {
                 .thenThrow(new InvalidSongNameOrArtistNameException("Filter must be at least 2 characters long."));
 
         MvcResult response = mockMvc
-                .perform(get("/musicas")
+                .perform(get("/api/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter)).andReturn();
@@ -96,7 +96,7 @@ public class SongsControllerTest {
                 .thenReturn(new SongResponseDTO(SONGS_FROM_SERVICE));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/musicas")
+                .perform(get("/api/musicas")
                         .header("token", TOKEN)
                         .header("user", USER))
                         .andReturn().getResponse();
@@ -118,7 +118,7 @@ public class SongsControllerTest {
                 .thenReturn(new SongResponseDTO(new ArrayList<>()));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/musicas")
+                .perform(get("/api/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter)).andReturn().getResponse();
@@ -138,7 +138,7 @@ public class SongsControllerTest {
                 .thenReturn(new SongResponseDTO(SONGS_FROM_SERVICE.subList(0, 3)));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/musicas")
+                .perform(get("/api/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter).param("pagina", "0")).andReturn().getResponse();
@@ -160,7 +160,7 @@ public class SongsControllerTest {
                 .thenReturn(new SongResponseDTO(SONGS_FROM_SERVICE));
 
         MockHttpServletResponse response = mockMvc
-                .perform(get("/musicas")
+                .perform(get("/api/musicas")
                         .header("token", TOKEN)
                         .header("user", USER)
                         .param("filtro", parameter).param("pagina", "0")).andReturn().getResponse();
