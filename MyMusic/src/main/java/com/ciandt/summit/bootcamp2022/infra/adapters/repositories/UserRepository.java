@@ -14,6 +14,7 @@ public class UserRepository implements UserRepositoryPort {
 
     @Autowired
     private SpringUserRepository userRepository;
+
     @Override
     public User findById(String id) throws UserNotFoundException {
         Optional<UserEntity> userEntity = this.userRepository.findById(id);
