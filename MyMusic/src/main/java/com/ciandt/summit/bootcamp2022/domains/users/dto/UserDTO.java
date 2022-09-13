@@ -16,6 +16,10 @@ public class UserDTO {
         this.userTypeDTO = userTypeDTO;
     }
 
+    public UserDTO() {
+
+    }
+
     public String getId() {
         return id;
     }
