@@ -3,10 +3,11 @@ package com.ciandt.summit.bootcamp2022.domains.artists.dtos;
 import com.ciandt.summit.bootcamp2022.domains.artists.Artist;
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ArtistDTO {
+public class ArtistDTO implements Serializable {
     private String id;
     private String name;
 

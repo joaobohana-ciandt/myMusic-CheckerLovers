@@ -6,6 +6,8 @@ import com.ciandt.summit.bootcamp2022.domains.users.ports.interfaces.UserService
 import com.ciandt.summit.bootcamp2022.domains.users.ports.repositories.UserRepositoryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
+
 
 public class UserServiceImp implements UserServicePort {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImp.class.getSimpleName());
@@ -17,7 +19,9 @@ public class UserServiceImp implements UserServicePort {
 
 
     @Override
+    @Cacheable(value = "users", key = "#id")
     public UserDTO findById(String id) throws UserNotFoundException {
+        logger.info("Getting user with id " + id);
         UserDTO user = this.userRepositoryPort.findById(id).toDTO();
         if (user == null) {
             throw new UserNotFoundException("User not found!");

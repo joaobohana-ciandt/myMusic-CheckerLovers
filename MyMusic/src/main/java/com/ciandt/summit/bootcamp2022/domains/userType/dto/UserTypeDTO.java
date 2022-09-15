@@ -2,9 +2,10 @@ package com.ciandt.summit.bootcamp2022.domains.userType.dto;
 
 import com.ciandt.summit.bootcamp2022.domains.userType.UserType;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class UserTypeDTO {
+public class UserTypeDTO implements Serializable {
     private String id;
     private String description;
 

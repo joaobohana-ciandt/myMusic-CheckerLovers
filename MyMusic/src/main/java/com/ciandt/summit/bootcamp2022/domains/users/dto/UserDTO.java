@@ -3,7 +3,9 @@ package com.ciandt.summit.bootcamp2022.domains.users.dto;
 import com.ciandt.summit.bootcamp2022.domains.playlists.dtos.PlaylistDTO;
 import com.ciandt.summit.bootcamp2022.domains.userType.dto.UserTypeDTO;
 
-public class UserDTO {
+import java.io.Serializable;
+
+public class UserDTO implements Serializable {
     private String id;
     private String name;
     private PlaylistDTO playlistDTO;
