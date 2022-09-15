@@ -18,6 +18,10 @@ public class UserDTO implements Serializable {
         this.userTypeDTO = userTypeDTO;
     }
 
+    public UserDTO() {
+
+    }
+
     public String getId() {
         return id;
     }
