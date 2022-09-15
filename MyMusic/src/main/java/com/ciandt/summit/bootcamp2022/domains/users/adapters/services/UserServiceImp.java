@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.domains.users.adapters.services;
 
 import com.ciandt.summit.bootcamp2022.domains.exceptions.users.UserNotFoundException;
+import com.ciandt.summit.bootcamp2022.domains.users.User;
 import com.ciandt.summit.bootcamp2022.domains.users.dto.UserDTO;
 import com.ciandt.summit.bootcamp2022.domains.users.ports.interfaces.UserServicePort;
 import com.ciandt.summit.bootcamp2022.domains.users.ports.repositories.UserRepositoryPort;
@@ -18,10 +19,7 @@ public class UserServiceImp implements UserServicePort {
 
     @Override
     public UserDTO findById(String id) throws UserNotFoundException {
-        UserDTO user = this.userRepositoryPort.findById(id).toDTO();
-        if (user == null) {
-            throw new UserNotFoundException("User not found!");
-        }
-        return user;
+        User result = this.userRepositoryPort.findById(id);
+        return result.toDTO();
     }
 }
