@@ -51,13 +51,7 @@ public class PlaylistServiceImp implements PlaylistServicePort {
             validateSong(songs, playlist);
         }
         this.playlistRespositoryPort.addSong(new PlaylistEntity(playlist));
-        updateCacheUser(userId);
         return playlist;
-    }
-
-    private UserDTO updateCacheUser(String userId) throws UserNotFoundException {
-        logger.info("Cache atualizado para usuario de id " + userId);
-        return this.userRepositoryPort.findById(userId).toDTO();
     }
 
     private void validateSong(List<SongDTO> songs, Playlist playlist) throws SongsNotFoundException, DuplicatedSongInPlaylist {
