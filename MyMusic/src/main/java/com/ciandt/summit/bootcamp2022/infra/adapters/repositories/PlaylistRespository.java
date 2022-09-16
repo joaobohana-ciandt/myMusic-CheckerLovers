@@ -6,10 +6,12 @@ import com.ciandt.summit.bootcamp2022.domains.playlists.ports.repositories.Playl
 import com.ciandt.summit.bootcamp2022.infra.adapters.entities.PlaylistEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Component
+@Repository
 public class PlaylistRespository implements PlaylistRespositoryPort {
 
     @Autowired

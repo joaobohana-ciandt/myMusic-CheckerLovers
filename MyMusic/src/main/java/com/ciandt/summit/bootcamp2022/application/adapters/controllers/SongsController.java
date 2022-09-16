@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
 public class SongsController implements SongControllerDocs {
 
     private static final Logger logger = LoggerFactory.getLogger(SongsController.class.getSimpleName());
@@ -22,7 +21,7 @@ public class SongsController implements SongControllerDocs {
     @Autowired
     private SongServicePort songServicePort;
 
-    @GetMapping("/musicas")
+    @GetMapping("/api/musicas")
     @ResponseBody
     public ResponseEntity<SongResponseDTO> findSongsByNameOrArtistName(@RequestParam(name = "filtro", required = false) String filter,
                                                                        @RequestParam(name = "pagina", defaultValue = "0") int pageNumber)
