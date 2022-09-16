@@ -4,10 +4,11 @@ import com.ciandt.summit.bootcamp2022.domains.playlists.Playlist;
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PlaylistDTO {
+public class PlaylistDTO implements Serializable {
     private String id;
     private List<SongDTO> songs;
 

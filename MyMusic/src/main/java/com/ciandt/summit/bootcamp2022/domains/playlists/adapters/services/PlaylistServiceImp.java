@@ -12,11 +12,14 @@ import com.ciandt.summit.bootcamp2022.domains.playlists.ports.repositories.Playl
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 import com.ciandt.summit.bootcamp2022.domains.songs.dtos.SongDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.ports.repositories.SongRepositoryPort;
+import com.ciandt.summit.bootcamp2022.domains.users.User;
 import com.ciandt.summit.bootcamp2022.domains.users.dto.UserDTO;
 import com.ciandt.summit.bootcamp2022.domains.users.ports.repositories.UserRepositoryPort;
 import com.ciandt.summit.bootcamp2022.infra.adapters.entities.PlaylistEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class PlaylistServiceImp implements PlaylistServicePort {
     }
 
     @Override
+    @CacheEvict(value = "users", key = "#userId")
     public Playlist addSongsToPlaylist(String playlistId, String userId, List<SongDTO> songs) throws SongsNotFoundException, PlaylistsNotFoundException, DuplicatedSongInPlaylist, UserNotFoundException, PlaylistSongLimitExceededException {
         Playlist playlist = this.playlistRespositoryPort.findById(playlistId);
         UserDTO user = this.userRepositoryPort.findById(userId).toDTO();
@@ -46,7 +50,8 @@ public class PlaylistServiceImp implements PlaylistServicePort {
             }
             validateSong(songs, playlist);
         }
-        return this.playlistRespositoryPort.addSong(new PlaylistEntity(playlist));
+        this.playlistRespositoryPort.addSong(new PlaylistEntity(playlist));
+        return playlist;
     }
 
     private void validateSong(List<SongDTO> songs, Playlist playlist) throws SongsNotFoundException, DuplicatedSongInPlaylist {

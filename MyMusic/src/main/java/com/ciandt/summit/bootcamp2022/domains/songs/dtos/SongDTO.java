@@ -3,9 +3,10 @@ package com.ciandt.summit.bootcamp2022.domains.songs.dtos;
 import com.ciandt.summit.bootcamp2022.domains.artists.dtos.ArtistDTO;
 import com.ciandt.summit.bootcamp2022.domains.songs.Song;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class SongDTO {
+public class SongDTO implements Serializable {
 
     private String id;
     private String name;
